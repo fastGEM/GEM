@@ -1,0 +1,21 @@
+Package: gem
+Type: Package
+Title: GEM model analysis
+Version: 0.99.4
+Date: 2015-12-05
+Author: Pan Hong
+Maintainer: Pan Hong <pan_hong@sics.a-star.edu.sg>
+Description: GEM model analysis
+License: What license is it under?
+Depends:
+    R (>= 2.10.0), methods
+VignetteBuilder: knitr
+Suggests:
+    knitr,
+    RUnit,
+    testthat,
+    BiocGenerics
+Imports:
+    tcltk,
+    ggplot2
+LazyData: TRUE
