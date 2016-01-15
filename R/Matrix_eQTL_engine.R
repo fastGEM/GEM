@@ -524,10 +524,6 @@ setGeneric("length")
 setMethod("length", "SlicedData",	function(x) {
     return( x$nSlices() );
 })
-setGeneric("FindRow")
-setMethod("FindRow", "SlicedData",	function(x, rn) {
-    return( x$FindRow(rn) );
-})
 setMethod("[[<-", "SlicedData",	function(x,i,value) {
     x$setSlice(i, value);
     return(x);

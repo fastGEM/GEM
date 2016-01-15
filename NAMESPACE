@@ -21,8 +21,7 @@ exportMethods(
     "rowMeans",
     "rowSums",
     "colMeans",
-    "colSums",
-    "FindRow"
+    "colSums"
 )
 export(Emodel)
 export(GEM_Emodel)
