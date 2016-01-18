@@ -12,8 +12,11 @@ if(!require("methods")){
 if(!require("ggplot2")){
     install.packages("ggplot2")
 }
+if(!require("Rcpp")){
+    install.packages("Rcpp")
+}
 
-
+## install gem package
 install.packages("devtools")
 devtools::install_github("fastGEM/GEM")
 ```
