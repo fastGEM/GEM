@@ -15,6 +15,9 @@ if(!require("ggplot2")){
 if(!require("Rcpp")){
     install.packages("Rcpp")
 }
+if(!require("digest")){
+    install.packages("digest")
+}
 
 ## install gem package
 install.packages("devtools")
