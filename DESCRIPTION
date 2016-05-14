@@ -1,21 +1,19 @@
 Package: GEM
 Type: Package
-Title: GEM model analysis
-Version: 0.99.4
+Title: GEM: fast association study for the interplay of Gene,
+        Environment and Methylation
+Version: 0.99.0
 Date: 2015-12-05
-Author: Pan Hong
-Maintainer: Pan Hong <pan_hong@sics.a-star.edu.sg>
-Description: GEM model analysis
-License: What license is it under?
-Depends:
-    R (>= 2.10.0), methods
+Author: Hong Pan, Joanna D Holbrook, Neerja Karnani, Chee-Keong Kwoh
+Maintainer: Hong Pan <pan_hong@sics.a-star.edu.sg>
+Description: Tools for analyzing EWAS, methQTL and GxE genome widely.
+License: Artistic-2.0
+biocViews: MethylSeq, WholeGenome, DNAMethylation, SNP, GeneExpression,
+        GUI, DataImport
+Depends: R (>= 2.10.0), methods
 VignetteBuilder: knitr
-Suggests:
-    knitr,
-    RUnit,
-    testthat,
-    BiocGenerics
-Imports:
-    tcltk,
-    ggplot2
+Suggests: knitr, RUnit, testthat, BiocGenerics
+Imports: tcltk, ggplot2
 LazyData: TRUE
+RoxygenNote: 5.0.1
+NeedsCompilation: no

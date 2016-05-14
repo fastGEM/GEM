@@ -1,0 +1,22 @@
+citEntry(entry="article",
+         title = "Gene, Environment and Methylation (GEM): A tool suite to efficiently navigate large scale epigenome wide association studies and integrate genotype and interaction between genotype and environment",
+         author = personList( as.person("Pan Hong"),
+                              as.person("Holbrook JD"),
+                              as.person("Karnani N"),
+                              as.person("Kwoh CK") ),
+         year = 2016,
+         volume = "",
+         pages = "",
+         journal = "BMC Bioinformatics",
+         textVersion = "Pan H, Holbrook JD, Karnani N, Kwoh CK (2016): Gene, Environment and Methylation (GEM): A tool suite to efficiently navigate large scale epigenome wide association studies and integrate genotype and interaction between genotype and environment. BMC Bioinformatics (submitted)")
+
+
+citEntry(
+	entry="article",
+	title = "Matrix eQTL: ultra fast eQTL analysis via large matrix operations",
+	author = personList( as.person("Andrey A. Shabalin") ),
+	year = "2012",
+	journal = "Bioinformatics",
+	volume = "28(10)",
+	pages = "1353--1358",
+	textVersion = "Shabalin AA. (2012). Matrix eQTL: ultra fast eQTL analysis via large matrix operations. Bioinformatics 28(10): 1353-1358")

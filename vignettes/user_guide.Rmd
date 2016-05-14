@@ -1,0 +1,168 @@
+---
+title: "GEM: fast association study for the interplay of Gene, Environment and Methylation"
+author: "Hong Pan"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The GEM User's Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dpi = 300)
+knitr::opts_chunk$set(cache=FALSE)
+```
+ 
+   
+## Introduction
+
+The **GEM** package provides a highly efficient R tool suite for performing epigenome wide association studies (EWAS). GEM provides three major functions named `GEM_Emodel`, `GEM_Gmodel` and `GEM_GxEmodel` to study the interplay of Gene, Environment and Methylation (GEM). Within GEM, the existing "Matrix eQTL" package is utilized and extended to study methylation quantitative trait loci (methQTL) and the interaction of genotype and environment (GxE) to determine DNA methylation variation, using matrix based iterative correlation and memory-efficient data analysis.  GEM can facilitate reliable genome-wide methQTL and GxE analysis on a standard laptop computer within minutes. 
+
+The input data to this package are normal text files presenting methylation profiles, genotype variants and environmental factors including covariates. Each row presents one CpG probe or SNP position or an environment measure, while each column represents one sample.  
+
+If you are using Rpackage GEM in a publication, please cite [1]. Rpackage GEM adopted the matrix operation method, which is described in [2]. Some of the sample data were from [3].
+
+
+## Getting Started
+
+### 1. Load the Package
+
+```{r, results='hide'}
+require(GEM)
+```
+
+### 2. Desctiption of input data 
+
+User can find the demo data with codes below:
+
+```{r}
+DATADIR = system.file('extdata',package='GEM')
+dir(path = DATADIR)
+```
+
+The format of input files for GEM are explained as below:
+
+2.1 **cov.txt**	- Artificial covariate data for GEM sample code.   
+
+Artificial data set with 1 covariate, for example, gender (encoded as 1 for male and 2 for female), across 237 samples. Columns of the file must match to those of the methylation and genotype data sets. In practical use, covariate data can contain multiple covariates, with each row representing one covariate and columns must match those in methylation and genotype data sets. Data in this file is the "covt" in `GEM_Emodel` `lm (M ~ E + covt)` and `GEM_Gmodel` `lm(M ~ G + covrt)`.
+
+Format:    
+
+```{r,echo=FALSE}
+read.table(paste(DATADIR, "cov.txt", sep = .Platform$file.sep), header = TRUE, row.names = 1)[1, 1:10]
+```
+
+
+2.2 **env.txt**	- Artificial environment factor for GEM sample code.
+
+Artificial data set with 1 environmental factor. Environmental factor can be one of the phenotypes, or maternal conditions or birth outcomes that is studied the association with methylation or genotype variants, for example, gestational age (GA) from 28 to 41 weeks across 237 samples.  Columns of the file must match to those of the methylation and genotype data sets. Data in this file is the "E" in `GEM_Emodel` `lm (M ~ E + covt)`.
+
+Format:
+
+```{r,echo=FALSE}
+read.table(paste(DATADIR, "env.txt", sep = .Platform$file.sep), header = TRUE, row.names = 1)[1, 1:10]
+```
+        
+2.3 **gxe.txt**	- Artificial covariate and environment data for GEM sample code.
+
+Artificial data set with 1 covariate and 1 environmental factor across 237 samples. Columns of the file must match to those of the methylation and genotype data sets. In practical use, it can contain n covariates and 1 environmental factor, just need to put the environmental factor as the last covariates at the last row. Data in this file combines both environment (E) and covariates (covt) in `GEM_GxEmodel` `lm (M ~ G x E + covt)`.
+
+Format:
+
+```{r,echo=FALSE}
+read.table(paste(DATADIR, "gxe.txt", sep = .Platform$file.sep), header = TRUE, row.names = 1)[1:2, 1:10]
+```
+
+
+2.4 **methylation.txt**	- A subset of methylation data for GEM sample code.
+
+A subset of DNA methylation profiles ranged in [0,1] for 100 CpGs across 237 real clinical samples. Each row represents one CpG's profile across all 237 samples. Columns of the file must match to those of the covariate and genotype data sets. Data in this file is "M" used in `GEM_Emodel`, `GEM_Gmodel`, and `GEM_GxEmodel`. 
+
+Format:
+
+```{r, echo = FALSE}
+read.table(paste(DATADIR, "methylation.txt", sep = .Platform$file.sep), header = TRUE)[1:5, 1:7]
+```
+
+
+2.5 **snp.txt**	- A subset of genotype data for GEM sample code.
+
+A subset with genotype data encoded as 1,2,3 for major allele homozygote (AA), heterozygote (AB) and minor allele homozygote (BB) for 100 SNPs across 237 real clinical samples. Each row represents one SNP profile across 237 samples. Columns of the file must match to those of the covariate and methylation data sets. Data in this file is "G" used in `GEM_Gmodel` and `GEM_GxEmodel`. 
+
+Format:
+
+```{r, echo = FALSE}
+read.table(paste(DATADIR, "snp.txt", sep = .Platform$file.sep), header = TRUE)[1:5, 1:15]
+```
+
+
+### 3. Work flow and result demonstration
+
+3.1 GEM_Emodel:
+
+```{r, eval=FALSE}
+env_file_name = paste(DATADIR, "env.txt", sep = .Platform$file.sep)
+covariate_file_name = paste(DATADIR, "cov.txt", sep = .Platform$file.sep)
+methylation_file_name = paste(DATADIR, "methylation.txt", sep = .Platform$file.sep)
+Emodel_pv = 1
+Emodel_result_file_name = "Result_Emodel.txt"
+Emodel_qqplot_file_name = "QQplot_Emodel.jpg"
+GEM_Emodel(env_file_name, covariate_file_name, methylation_file_name, Emodel_pv, Emodel_result_file_name, Emodel_qqplot_file_name)
+```
+
+
+Results:
+
+```{r,echo=FALSE}
+head(read.table(paste(system.file('result',package='GEM'), "Result_Emodel.txt", sep = .Platform$file.sep), header = TRUE))
+```
+
+![qqplot](QQplot_Emodel.png)
+
+3.2 GEM_Gmodel:
+
+```{r, eval=FALSE}
+snp_file_name = paste(DATADIR, "snp.txt", sep = .Platform$file.sep)
+covariate_file_name = paste(DATADIR, "cov.txt", sep = .Platform$file.sep)
+methylation_file_name = paste(DATADIR, "methylation.txt", sep = .Platform$file.sep)
+Gmodel_pv = 1e-04
+Gmodel_result_file_name = "Result_Gmodel.txt"
+
+GEM_Gmodel(snp_file_name, covariate_file_name, methylation_file_name, Gmodel_pv, Gmodel_result_file_name)
+```
+
+Results:
+
+```{r,echo=FALSE}
+head(read.table(paste(system.file('result',package='GEM'), "Result_Gmodel.txt", sep = .Platform$file.sep), header = TRUE))
+```
+
+
+3.3 GEM_GxEmodel:
+
+```{r, eval=FALSE}
+snp_file_name = paste(DATADIR, "snp.txt", sep = .Platform$file.sep)
+covariate_file_name = paste(DATADIR, "gxe.txt", sep = .Platform$file.sep)
+methylation_file_name = paste(DATADIR, "methylation.txt", sep = .Platform$file.sep)
+GxEmodel_pv = 1
+GxEmodel_result_file_name = "Result_GxEmodel.txt"
+GEM_GxEmodel(snp_file_name, covariate_file_name, methylation_file_name, GxEmodel_pv, GxEmodel_result_file_name)
+```
+
+Results:
+
+```{r,echo=FALSE}
+head(read.table(paste(system.file('result',package='GEM'), "Result_GxEmodel.txt", sep = .Platform$file.sep), header = TRUE))
+```
+
+![](SNP77_CpG83.png)
+
+
+## References
+
+[1] Pan H, Holbrook JD, Karnani N, Kwoh CK (2016). "**Gene, Environment and Methylation (GEM): A tool suite to efficiently navigate large scale epigenome wide association studies and integrate genotype and interaction between genotype and environment.**" BMC Bioinformatics (submitted).
+
+[2] Shabalin AA. (2012). "**Matrix eQTL: ultra fast eQTL analysis via large matrix operations.**" Bioinformatics 28(10): 1353-1358.
+
+[3] Teh AL, Pan H, Chen L, Ong ML, Dogra S, Wong J, MacIsaac JL, Mah SM, McEwen LM, Saw SM et al(2014): "**The effect of genotype and in utero environment on interindividual variation in neonate DNA methylomes**". Genome research, 24(7):1064-1074.
