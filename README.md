@@ -17,6 +17,8 @@ biocLite("GEM")
 ### Install from github
 
 ```R
+## R version: R >= 3.3 
+
 ## install dependent packages
 if(!require("methods")){
     install.packages("methods")
@@ -35,6 +37,7 @@ if(!require("devtools")){
 }
 
 ## install gem package
+## suggest devtools version: devtools >= 1.11.1.9000
 devtools::install_github("fastGEM/GEM")
 ```
 
