@@ -44,10 +44,16 @@ NULL
 #'
 #' @return GEM model analysis results
 #' @import tcltk
+#' @importFrom grDevices  dev.off jpeg
+#' @importFrom graphics abline legend lines par plot points title
+#' @importFrom methods new
+#' @importFrom stats complete.cases lm pf pt qf qt
+#' @importFrom utils flush.console tail tail.matrix write.table
 #' @export
 #' @seealso \code{\link{GEM-package}}
 #' @examples
-#' #GEM_GUI()
+#' interactive()
+#' #GEM_GUI()  ## remove the hash symbol to run
 GEM_GUI <- function(){
     setModel <- TRUE   # model selection tag
     all_models <- c("Emodel", "Gmodel", "GxEmodel", "GplusEmodel", "GWASmodel")

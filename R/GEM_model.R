@@ -19,6 +19,7 @@
 #' @param Emodel_pv The pvalue cut off. Associations with significances at Emodel_pv level or below are saved to output_file_name, with corresponding estimate of effect size (slope coefficient), test statistics and p-value. Default value is 1.0.
 #' @param output_file_name The result file with each row presenting a CpG and its association with environment, which contains CpGID, estimate of effect size (slope coefficient), test statistics, pvalue and FDR at each column.
 #' @param qqplot_file_name Image file name to present the QQ-plot for all p-value distribution.
+#' @param savePlot If save the plot.
 #'
 #' @return save results automatically
 #' @export
@@ -35,7 +36,7 @@
 #' GEM_Emodel(env_file, covariate_file, methylation_file, Emodel_pv, output_file, qqplot_file)
 GEM_Emodel <-
     function(env_file_name, covariate_file_name, methylation_file_name,
-             Emodel_pv, output_file_name, qqplot_file_name) {
+             Emodel_pv, output_file_name, qqplot_file_name, savePlot = TRUE) {
 
         errorCovariance = numeric();
 
@@ -93,13 +94,16 @@ GEM_Emodel <-
           Emodel$all$eqtl$FDR
         )
         colnames(result_Emodel) <- c("cpg", "beta", "stats", "pvalue", "FDR")
-        write.table( result_Emodel, output_file_name, sep = "\t", row.names = F, quote = F)
+        write.table( result_Emodel, output_file_name, sep = "\t", row.names = FALSE, quote = FALSE)
         
+        if(savePlot){
+          jpeg(qqplot_file_name, width = 2000, height = 2000, res = 300)
+          plot(Emodel, pch = 16, cex = 0.7)
+          dev.off()
+        }else{
+          plot(Emodel, pch = 16, cex = 0.7)
+        }
         
-        
-        jpeg(qqplot_file_name, width = 2000, height = 2000, res = 300)
-        plot(Emodel, pch = 16, cex = 0.7);
-        dev.off()
     }
 
 
@@ -204,7 +208,7 @@ GEM_Gmodel <-
         colnames(result_Gmodel) <- c("cpg", "snp", "beta", "stats", "pvalue", "FDR")
         
         write.table(
-            result_Gmodel, output_file_name, sep = "\t", row.names = F, quote = F
+            result_Gmodel, output_file_name, sep = "\t", row.names = FALSE, quote = FALSE
         )
     }
 
@@ -233,7 +237,7 @@ GEM_Gmodel <-
 #' @param GxEmodel_pv The pvalue cut off. Associations with significances at GxEmodel_pv level or below are saved to output_file_name, with corresponding estimate of effect size (slope coefficient), test statistics and p-value. Default value is 5.0E-08.
 #' @param output_file_name The result file with each row presenting a CpG and its association with SNPxEnv, which contains CpGID, SNPID, estimate of effect size (slope coefficient), test statistics, pvalue and FDR at each column.
 #' @param topKplot The top number of topKplot CpG-SNP-Env triplets will be presented into charts to demonstrate how environment values segregated by SNP groups can explain methylation. 
-#'
+#' @param savePlot if save the plot.
 #'    
 #' @return save results automatically
 #' @import ggplot2
@@ -250,7 +254,7 @@ GEM_Gmodel <-
 #' GEM_GxEmodel(snp_file, covariate_file, methylation_file, GxEmodel_pv, output_file)
 GEM_GxEmodel <-
     function(snp_file_name, covariate_file_name, methylation_file_name,
-             GxEmodel_pv, output_file_name, topKplot = 10)
+             GxEmodel_pv, output_file_name, topKplot = 10, savePlot=TRUE)
     {
 
         errorCovariance = numeric();
@@ -320,9 +324,15 @@ GEM_GxEmodel <-
                     geom_smooth(method=lm, se=FALSE, colour = "red") +
                     facet_grid(. ~ snp) + theme_bw() + xlab("Environmental factor") + ylab(paste0(cpginame, " profile")) +
                     theme(strip.text.x = element_text(size=12, face="bold"))
-                ggsave(paste0(dirname(output_file_name), .Platform$file.sep,
-                              snpiname, " x ", cpginame, ".pdf"),
-                       dp, width=12, height=7)
+                
+                if(savePlot){
+                  ggsave(paste0(dirname(output_file_name), .Platform$file.sep,
+                                snpiname, " x ", cpginame, ".png"),
+                         dp, width=12, height=7)
+                }else{
+                  print(dp)
+                }
+                
             }
         }
 
@@ -341,7 +351,7 @@ GEM_GxEmodel <-
         
         
         write.table(
-            result_GxEmodel, output_file_name, sep = "\t", row.names = F, quote = F
+            result_GxEmodel, output_file_name, sep = "\t", row.names = FALSE, quote = FALSE
         )
 
         #jpeg(qqplot_file_name, width = 2000, height = 2000, res = 300)
@@ -382,6 +392,16 @@ GEM_GxEmodel <-
 #' @param qqplot_file_name Output QQ plot for all pvalues.
 #'
 #' @return save results automatically
+#' @examples
+#' DATADIR = system.file('extdata',package='GEM')
+#' RESULTDIR = getwd()
+#' snp_file = paste(DATADIR, "snp.txt", sep = .Platform$file.sep)
+#' covariate_file = paste(DATADIR, "cov.txt", sep = .Platform$file.sep)
+#' env_file = paste(DATADIR, "env.txt", sep = .Platform$file.sep)
+#' GWASmodel_pv = 1e-5
+#' output_file = paste(RESULTDIR, "Result_GxEmodel.txt", sep = .Platform$file.sep)
+#' qqplot_file = paste(RESULTDIR, "Result_GxEmodel.jpeg", sep = .Platform$file.sep)
+#' GEM_GWASmodel(env_file, snp_file, covariate_file, GWASmodel_pv, output_file, qqplot_file)
 GEM_GWASmodel <-
     function(env_file_name, snp_file_name, covariate_file_name,
              GWASmodel_pv, output_file_name, qqplot_file_name)
@@ -445,7 +465,7 @@ GEM_GWASmodel <-
         
         colnames(result_GWASmodel) <- c("snp", "beta", "st", "pvalue", "FDR")
         write.table(
-            result_GWASmodel, output_file_name, sep = "\t", row.names = F, quote = F
+            result_GWASmodel, output_file_name, sep = "\t", row.names = FALSE, quote = FALSE
         )
 
         jpeg(

@@ -39,4 +39,15 @@ GEM_GWASmodel runs linear regression like lm (E ~ G + covt), where G is a matrix
 E is a matrix with environment factor and covt is a matrix with covariates, and all read from the
 formatted text data file.
 }
+\examples{
+DATADIR = system.file('extdata',package='GEM')
+RESULTDIR = getwd()
+snp_file = paste(DATADIR, "snp.txt", sep = .Platform$file.sep)
+covariate_file = paste(DATADIR, "cov.txt", sep = .Platform$file.sep)
+env_file = paste(DATADIR, "env.txt", sep = .Platform$file.sep)
+GWASmodel_pv = 1e-5
+output_file = paste(RESULTDIR, "Result_GxEmodel.txt", sep = .Platform$file.sep)
+qqplot_file = paste(RESULTDIR, "Result_GxEmodel.jpeg", sep = .Platform$file.sep)
+GEM_GWASmodel(env_file, snp_file, covariate_file, GWASmodel_pv, output_file, qqplot_file)
+}
 

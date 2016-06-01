@@ -18,7 +18,6 @@
 \alias{rownames<-,SlicedData-method}
 \alias{show,SlicedData-method}
 \alias{as.matrix,SlicedData-method}
-
 \alias{rowMeans,SlicedData-method}
 \alias{rowSums,SlicedData-method}
 \alias{colMeans,SlicedData-method}
@@ -31,6 +30,9 @@
 	It is used to load, store, and manipulate large datasets, e.g. genotype and gene expression matrices.
 	When a dataset is loaded, it is sliced in blocks of 1,000 rows (default size).
 	This allows imputing, standardizing, and performing other operations with the data with minimal memory overhead.
+}
+\value{
+check the resutls
 }
 \section{Extends}{
 	\code{SlicedData} is a reference classes (\code{\linkS4class{envRefClass}}).

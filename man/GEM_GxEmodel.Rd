@@ -5,7 +5,7 @@
 \title{GEM_GxEmodel}
 \usage{
 GEM_GxEmodel(snp_file_name, covariate_file_name, methylation_file_name,
-  GxEmodel_pv, output_file_name, topKplot = 10)
+  GxEmodel_pv, output_file_name, topKplot = 10, savePlot = TRUE)
 }
 \arguments{
 \item{snp_file_name}{Text file with rows representing genotype encoded as 1,2,3 or any three distinct values for major allele homozygote (AA), heterozygote (AB) and minor allele homozygote (BB) and columns representing samples, such as the example data file "snp.txt".}
@@ -19,6 +19,8 @@ GEM_GxEmodel(snp_file_name, covariate_file_name, methylation_file_name,
 \item{output_file_name}{The result file with each row presenting a CpG and its association with SNPxEnv, which contains CpGID, SNPID, estimate of effect size (slope coefficient), test statistics, pvalue and FDR at each column.}
 
 \item{topKplot}{The top number of topKplot CpG-SNP-Env triplets will be presented into charts to demonstrate how environment values segregated by SNP groups can explain methylation.}
+
+\item{savePlot}{if save the plot.}
 }
 \value{
 save results automatically

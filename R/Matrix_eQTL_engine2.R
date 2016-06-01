@@ -1201,7 +1201,7 @@ Matrix_eQTL_engine2 = function(
                     cat("Task finished in ", newTime-lastTime, " seconds\n");
                 }
                 #cat(text,"\n");
-                lastTime <<- newTime;
+                lastTime <- newTime;
                 unused = flush.console();
             }
         } else {

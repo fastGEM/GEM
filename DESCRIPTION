@@ -2,18 +2,19 @@ Package: GEM
 Type: Package
 Title: GEM: fast association study for the interplay of Gene,
         Environment and Methylation
-Version: 0.99.0
+Version: 0.99.3
 Date: 2015-12-05
 Author: Hong Pan, Joanna D Holbrook, Neerja Karnani, Chee-Keong Kwoh
 Maintainer: Hong Pan <pan_hong@sics.a-star.edu.sg>
 Description: Tools for analyzing EWAS, methQTL and GxE genome widely.
 License: Artistic-2.0
-biocViews: MethylSeq, WholeGenome, DNAMethylation, SNP, GeneExpression,
-        GUI, DataImport
-Depends: R (>= 2.10.0), methods
+biocViews: MethylSeq, MethylationArray, GenomeWideAssociation,
+        Regression, DNAMethylation, SNP, GeneExpression, GUI
+Depends: R (>= 3.3)
 VignetteBuilder: knitr
 Suggests: knitr, RUnit, testthat, BiocGenerics
-Imports: tcltk, ggplot2
+Imports: tcltk, ggplot2, methods, stats, grDevices, graphics, utils
 LazyData: TRUE
 RoxygenNote: 5.0.1
 NeedsCompilation: no
+

@@ -24,7 +24,8 @@ GEM can facilitate reliable genome-wide methQTL and GxE analysis on a standard l
 computer within minutes.
 }
 \examples{
-#GEM_GUI()
+interactive()
+#GEM_GUI()  ## remove the hash symbol to run
 }
 \seealso{
 \code{\link{GEM-package}}

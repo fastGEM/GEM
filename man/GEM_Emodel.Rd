@@ -5,7 +5,7 @@
 \title{GEM_Emodel Analysis}
 \usage{
 GEM_Emodel(env_file_name, covariate_file_name, methylation_file_name, Emodel_pv,
-  output_file_name, qqplot_file_name)
+  output_file_name, qqplot_file_name, savePlot = TRUE)
 }
 \arguments{
 \item{env_file_name}{Text file with rows representing environment factor and columns representing samples, such as the example data file "env.txt".}
@@ -19,6 +19,8 @@ GEM_Emodel(env_file_name, covariate_file_name, methylation_file_name, Emodel_pv,
 \item{output_file_name}{The result file with each row presenting a CpG and its association with environment, which contains CpGID, estimate of effect size (slope coefficient), test statistics, pvalue and FDR at each column.}
 
 \item{qqplot_file_name}{Image file name to present the QQ-plot for all p-value distribution.}
+
+\item{savePlot}{If save the plot.}
 }
 \value{
 save results automatically
